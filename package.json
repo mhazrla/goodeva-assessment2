@@ -20,10 +20,12 @@
     },
     "dependencies": {
         "daisyui": "^2.51.0",
+        "datatables.net": "^1.13.4",
         "moment": "^2.29.4",
         "preline": "^1.7.0",
         "react-d3-speedometer": "^1.1.0",
         "react-data-table-component": "^7.5.3",
+        "react-to-print": "^2.14.13",
         "recharts": "^2.4.3",
         "styled-components": "^5.3.9",
         "sweetalert": "^2.1.2"

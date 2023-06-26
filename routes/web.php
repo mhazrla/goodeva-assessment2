@@ -27,6 +27,7 @@ Route::controller(DashboardController::class)->group(function () {
 
 Route::controller(LogdataController::class)->middleware('auth')->group(function () {
     Route::get('/log/{logdata}', 'show')->name('log');
+    Route::post('/import-csv', 'import');
 });
 
 

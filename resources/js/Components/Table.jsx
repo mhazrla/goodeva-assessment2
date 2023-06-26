@@ -1,6 +1,8 @@
 import moment from "moment";
-import React from "react";
+import React, { useRef } from "react";
 import DataTable from "react-data-table-component";
+import { useReactToPrint } from "react-to-print";
+import CsvImport from "./CsvImport";
 
 const isData = (log) => {
     function convertArrayOfObjectsToCSV(array) {
@@ -86,14 +88,22 @@ const isData = (log) => {
         },
     ];
 
-    const Export = ({ onExport }) => (
+    const conponentPDF = useRef();
+
+    const generatePDF = useReactToPrint({
+        content: () => conponentPDF.current,
+        documentTitle: "Log Data",
+        onAfterPrint: () => alert("Data saved in PDF"),
+    });
+
+    const ExportToCSV = ({ onExport }) => (
         <div className="mx-5 my-auto">
             <div className="hidden xl:block">
                 <button
                     className="btn btn-primary btn-sm"
                     onClick={(e) => onExport(e.target.value)}
                 >
-                    Export
+                    Export To CSV
                 </button>
             </div>
 
@@ -135,7 +145,7 @@ const isData = (log) => {
     );
 
     const actionsMemo = React.useMemo(
-        () => <Export onExport={() => downloadCSV(log)} />,
+        () => <ExportToCSV onExport={() => downloadCSV(log)} />,
         []
     );
 
@@ -151,16 +161,23 @@ const isData = (log) => {
     }, []);
 
     return (
-        <DataTable
-            actions={actionsMemo}
-            columns={columns}
-            data={rows}
-            progressPending={pending}
-            pagination
-            highlightOnHover
-            pointerOnHover
-            responsive={true}
-        />
+        <div ref={conponentPDF} style={{ width: "100%" }}>
+            <button className="btn btn-success " onClick={generatePDF}>
+                PDF
+            </button>
+            <CsvImport />
+
+            <DataTable
+                actions={actionsMemo}
+                columns={columns}
+                data={rows}
+                progressPending={pending}
+                pagination
+                highlightOnHover
+                pointerOnHover
+                responsive={true}
+            />
+        </div>
     );
 };
 

@@ -11,8 +11,21 @@ import {
     Tooltip,
     Legend,
     ResponsiveContainer,
+    BarChart,
+    Bar,
+    PieChart,
+    Pie,
+    Cell,
 } from "recharts";
-
+const data01 = [
+    { name: "pH", value: 7.8 },
+    { name: "Suhu", value: 28 },
+    { name: "Amonia", value: 0.01 },
+    { name: "TSS", value: 4 },
+    { name: "TDS", value: 5 },
+    { name: "Salinitas", value: 0 },
+];
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 const Tabs = ({ color, sensor, avg }) => {
     const sensorId = sensor.id_alat;
     const [data, setData] = useState([]);
@@ -20,12 +33,12 @@ const Tabs = ({ color, sensor, avg }) => {
     avg.map((item) => {
         average.push({
             name: moment(data.date).format("DD/MM/YYYY"),
-            pH: data.ph_avg,
-            Suhu: data.suh_avg,
-            Amonia: data.amonia_avg,
-            TSS: data.tss_avg,
-            TDS: data.tds_avg,
-            Salinitas: data.salinitas_avg,
+            pH: data.ph,
+            Suhu: data.suhu,
+            Amonia: data.amonia,
+            TSS: data.tss,
+            TDS: data.tds,
+            Salinitas: data.salinitas,
         });
     });
 
@@ -337,6 +350,174 @@ const Tabs = ({ color, sensor, avg }) => {
                                                         />
                                                     </LineChart>
                                                     {/* Desktop Graph End */}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {/* Bar */}
+                                    <div className="py-12">
+                                        <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                                            <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                                                <div className="p-6  text-fontPrimary ">
+                                                    <ResponsiveContainer
+                                                        width="99%"
+                                                        aspect={3}
+                                                    >
+                                                        <BarChart
+                                                            width={500}
+                                                            height={300}
+                                                            data={average}
+                                                            margin={{
+                                                                top: 5,
+                                                                right: 30,
+                                                                left: 20,
+                                                                bottom: 5,
+                                                            }}
+                                                        >
+                                                            <CartesianGrid strokeDasharray="3 3" />
+                                                            <XAxis dataKey="name" />
+                                                            <YAxis />
+                                                            <Tooltip />
+                                                            <Legend />
+                                                            <Bar
+                                                                dataKey="pH"
+                                                                fill="#8884d8"
+                                                            />
+                                                            <Bar
+                                                                dataKey="Suhu"
+                                                                fill="#82ca9d"
+                                                            />
+                                                            <Bar
+                                                                dataKey="Amonia"
+                                                                fill="#FFBB28"
+                                                            />
+                                                            <Bar
+                                                                dataKey="TSS"
+                                                                fill="pink"
+                                                            />
+                                                            <Bar
+                                                                dataKey="TDS"
+                                                                fill="red"
+                                                            />
+                                                            <Bar
+                                                                dataKey="Salinitas"
+                                                                fill="#0088FE"
+                                                            />
+                                                        </BarChart>
+                                                    </ResponsiveContainer>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {/* Pie */}
+                                    <div className="py-12">
+                                        <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                                            <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                                                <div className="p-6  text-fontPrimary ">
+                                                    <ResponsiveContainer
+                                                        width="100%"
+                                                        height="100%"
+                                                        aspect={3}
+                                                    >
+                                                        <PieChart
+                                                            width={400}
+                                                            height={400}
+                                                        >
+                                                            <Pie
+                                                                dataKey="value"
+                                                                isAnimationActive={
+                                                                    false
+                                                                }
+                                                                data={data01}
+                                                                cx="50%"
+                                                                cy="50%"
+                                                                outerRadius={80}
+                                                                fill="#8884d8"
+                                                                label
+                                                            />
+
+                                                            <Tooltip />
+                                                        </PieChart>
+                                                    </ResponsiveContainer>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {/* Circle */}
+                                    <div className="py-12">
+                                        <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                                            <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                                                <div className="p-6  text-fontPrimary ">
+                                                    <ResponsiveContainer
+                                                        width="100%"
+                                                        height="100%"
+                                                        aspect={2}
+                                                    >
+                                                        <PieChart
+                                                            width={800}
+                                                            height={400}
+                                                        >
+                                                            <Pie
+                                                                data={data01}
+                                                                cx={120}
+                                                                cy={200}
+                                                                innerRadius={60}
+                                                                outerRadius={80}
+                                                                fill="#8884d8"
+                                                                paddingAngle={5}
+                                                                dataKey="value"
+                                                            >
+                                                                {data01.map(
+                                                                    (
+                                                                        entry,
+                                                                        index
+                                                                    ) => (
+                                                                        <Cell
+                                                                            key={`cell-${index}`}
+                                                                            fill={
+                                                                                COLORS[
+                                                                                    index %
+                                                                                        COLORS.length
+                                                                                ]
+                                                                            }
+                                                                        />
+                                                                    )
+                                                                )}
+                                                            </Pie>
+
+                                                            <Pie
+                                                                data={data01}
+                                                                cx={420}
+                                                                cy={200}
+                                                                startAngle={0}
+                                                                endAngle={180}
+                                                                innerRadius={60}
+                                                                outerRadius={80}
+                                                                fill="#8884d8"
+                                                                paddingAngle={5}
+                                                                dataKey="value"
+                                                            >
+                                                                {data01.map(
+                                                                    (
+                                                                        entry,
+                                                                        index
+                                                                    ) => (
+                                                                        <Cell
+                                                                            key={`cell-${index}`}
+                                                                            fill={
+                                                                                COLORS[
+                                                                                    index %
+                                                                                        COLORS.length
+                                                                                ]
+                                                                            }
+                                                                        />
+                                                                    )
+                                                                )}
+                                                            </Pie>
+
+                                                            <Tooltip />
+                                                        </PieChart>
+                                                    </ResponsiveContainer>
                                                 </div>
                                             </div>
                                         </div>
